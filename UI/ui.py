@@ -1,7 +1,6 @@
 import streamlit as st
 from backend.core import run_llm  # your LLM call function
 
-
 # Header
 st.title("AI Assistant")
 st.caption("Ask anything and get smart, context-aware answers.")

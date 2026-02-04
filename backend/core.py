@@ -1,16 +1,16 @@
 from typing import List, Dict, Any
 
 from dotenv import load_dotenv
-from langchain.chains.retrieval import create_retrieval_chain
+#from langchain.chains.retrieval import create_retrieval_chain
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
-from langchain_ollama import ChatOllama
+#from langchain_ollama import ChatOllama
 from openai import embeddings, vector_stores
 
 load_dotenv()
 
-from langchain import hub
-from langchain.chains.combine_documents import create_stuff_documents_chain
+#from langchain import hub
+#from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_pinecone import  PineconeVectorStore
 
 
@@ -26,8 +26,8 @@ def format_docs(docs):
 def run_llm(query: str, chat_history: List[Dict[str,Any]]=[]):
     embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
     docsearch = PineconeVectorStore(index_name=INDEX_NAME, embedding=embeddings)
-    #llm = ChatOpenAI(verbose=True, temperature=0)
-    llm = ChatOllama(model="llama3")
+    llm = ChatOpenAI(verbose=True, temperature=0)
+    #llm = ChatOllama(model="llama3")
 
     #retrival_qa_chat_prompt = hub.pull("langchain-ai/retrieval-qa-chat")
 

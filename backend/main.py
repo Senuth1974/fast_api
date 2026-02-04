@@ -26,7 +26,7 @@ class Query(BaseModel):
 @app.get("/")
 def index():
     return {
-        "Hello Akash"
+        "Hello senuth"
     }
 
 @app.post("/vcDatabase")

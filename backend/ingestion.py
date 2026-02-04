@@ -15,10 +15,10 @@ from pinecone import Pinecone
 
 def ingest_docs():
     ##https://python.langchain.com/docs/integrations/document_loaders/csv/ official doc
-    loader = CSVLoader(file_path="./item_data/testdata.csv",source_column="item_id")
+    loader = CSVLoader(file_path="./backend/item_data/testdata.csv",source_column="item_id")
     raw_documents = loader.load()
 
-    print(f"loaded{len(raw_documents)} documents")
+    print(f"loaded {len(raw_documents)} documents")
 
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=600, chunk_overlap=50)
 
@@ -41,7 +41,7 @@ def ingest_docs():
     index = pc.Index(index_name)
 
     # ✅ Delete all existing vectors
-    index.delete(delete_all=True)
+    #index.delete(delete_all=True)
 
 
     PineconeVectorStore.from_documents(
