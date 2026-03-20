@@ -41,23 +41,25 @@ def run_llm(query: str, chat_history: List[Dict[str,Any]]=[]):
 
     #custom user prompt
     template = """
-    You are a Smart E-Commerce Assistant. Use the following context to answer the customer's question.
+    You are an AI assistant for an online jewelry store.
 
-    Rules:
-    - If you don't know the answer or we don't sell that item, reply: "I'm sorry, I couldn't find that information."
-    - Keep answers concise (maximum three sentences).
-    - Always include item_id,Name for products when available.
-    - Always end the answer with: "Thanks for asking."
+    Guidelines:
+    - Start with a short greeting.
+    - Use ONLY the provided product context.
+    - If no relevant product exists, reply: "I'm sorry, I couldn't find that information."
+    - Keep the answer under 3 sentences.
+    - For each product mentioned include: item_id and Name.
 
-    Chat history:
+    Chat History:
     {chat_history}
 
-    Context:
+    Product Context:
     {context}
 
-    Question: {question}
+    Customer Question:
+    {question}
 
-    Helpful Answer:
+    Response:
     """
 
     def format_chat_history(chat_history: List[Dict[str, Any]]) -> str:

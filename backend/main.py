@@ -6,6 +6,7 @@ from backend.semantic_search import search_item
 from backend.ingestion import ingest_docs
 from backend.prediction import predict_rev, PredictionInput
 from fastapi.middleware.cors import CORSMiddleware
+from typing import List,Dict,Any
 
 # Create FastAPI app
 app = FastAPI()
@@ -22,6 +23,15 @@ app.add_middleware(
 
 class Query(BaseModel):
     message: str
+
+# Request model
+class ChatRequest(BaseModel):
+    user_input: str
+    chat_history: List[Dict[str, str]] = []
+
+# Response model
+class ChatResponse(BaseModel):
+    answer: str
 
 @app.get("/")
 def index():
@@ -46,6 +56,14 @@ def chat(query: Query):
         "query": res["query"],
         "response": res["result"]
     }
+
+# New chat api
+@app.post("/live-chat", response_model=ChatResponse)
+def chat_endpoint(request: ChatRequest):
+    response = run_llm(query=request.user_input, chat_history=request.chat_history)
+    answer = response.get("result", "I'm sorry, I couldn't find that information.")
+    return ChatResponse(answer=answer)
+
 #
 @app.post('/predict')
 def predict(data: PredictionInput):
