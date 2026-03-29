@@ -26,7 +26,7 @@ def format_docs(docs):
 def run_llm(query: str, chat_history: List[Dict[str,Any]]=[]):
     embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
     docsearch = PineconeVectorStore(index_name=INDEX_NAME, embedding=embeddings)
-    llm = ChatOpenAI(verbose=True, temperature=0)
+    llm = ChatOpenAI(verbose=True, temperature=0.5)
     #llm = ChatOllama(model="llama3")
 
     #retrival_qa_chat_prompt = hub.pull("langchain-ai/retrieval-qa-chat")
@@ -41,14 +41,19 @@ def run_llm(query: str, chat_history: List[Dict[str,Any]]=[]):
 
     #custom user prompt
     template = """
-    You are an AI assistant for an online jewelry store.
+    You are a friendly AI assistant for an online jewelry store.
+
 
     Guidelines:
-    - Start with a short greeting.
-    - Use ONLY the provided product context.
-    - If no relevant product exists, reply: "I'm sorry, I couldn't find that information."
+    - Be conversational and helpful.
+    - Answer naturally like a human assistant.
+    - Use ONLY the provided product context when recommending products.
+    - If the question is unrelated to products (e.g., time, weather, etc.):
+    - Politely say you cannot answer that.
+    - Then gently guide the user back to shopping or products.
     - Keep the answer under 3 sentences.
-    - For each product mentioned include: item_id and Name.
+    - When mentioning a product, include item_id naturally like (item_id: 10).
+    - Do NOT use bullet points or lists.
 
     Chat History:
     {chat_history}
